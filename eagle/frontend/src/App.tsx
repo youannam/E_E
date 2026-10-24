@@ -1,0 +1,62 @@
+import { useAuth } from "./auth/AuthContext";
+import { Layout } from "./components/Layout";
+import { ActivitiesPage } from "./pages/ActivitiesPage";
+import { AccountsPage } from "./pages/AccountsPage";
+import { AlertDetailPage } from "./pages/AlertDetailPage";
+import { AlertsPage } from "./pages/AlertsPage";
+import { DashboardPage } from "./pages/DashboardPage";
+import { LoginPage } from "./pages/LoginPage";
+import { RulesPage } from "./pages/RulesPage";
+import { SimulationPage } from "./pages/SimulationPage";
+import { UserDetailPage } from "./pages/UserDetailPage";
+import { UsersPage } from "./pages/UsersPage";
+import { useRoute } from "./utils/router";
+
+export function App() {
+  const { account, checking } = useAuth();
+  const route = useRoute();
+  const isAdmin = account?.role === "ADMIN";
+
+  if (checking) return <div className="state">Checking your session…</div>;
+  if (!account) return <LoginPage />;
+
+  // Navigation is driven by explicit API permission grants, not by the role label.
+  const grants = new Set(account?.permissions ?? []);
+  const can = (permission: string) => isAdmin || grants.has(permission);
+  const pagePermission: Record<string, string> = {
+    dashboard: "dashboard.view", alerts: "alerts.view", users: "users.view",
+    activities: "activities.view", simulation: "alerts.investigate",
+    rules: "rules.manage", accounts: "accounts.manage",
+  };
+  const allowedPages = Object.entries(pagePermission).filter(([, permission]) => can(permission)).map(([page]) => page);
+  const requestedPageAllowed = allowedPages.includes(route.page) &&
+    (!route.id || route.page !== "users" || can("users.view")) &&
+    (!route.id || route.page !== "alerts" || can("alerts.view"));
+  const activePage = requestedPageAllowed ? route.page : (allowedPages[0] as typeof route.page | undefined) ?? "alerts";
+  if (!requestedPageAllowed && route.page !== activePage) window.location.hash = `#/${activePage}`;
+
+  let page;
+  switch (activePage) {
+    case "alerts":
+      page = route.id ? <AlertDetailPage key={route.id} alertId={route.id} /> : <AlertsPage />;
+      break;
+    case "users":
+      page = route.id ? <UserDetailPage key={route.id} userId={route.id} /> : <UsersPage />;
+      break;
+    case "activities":
+      page = <ActivitiesPage />;
+      break;
+    case "simulation":
+      page = <SimulationPage />;
+      break;
+    case "rules":
+      page = <RulesPage />;
+      break;
+    case "accounts":
+      page = <AccountsPage />;
+      break;
+    default:
+      page = <DashboardPage />;
+  }
+  return <Layout current={activePage}>{page}</Layout>;
+}

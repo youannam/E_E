@@ -1,0 +1,6 @@
+Eagle Eye logo refresh
+- Web sidebar wordmark and browser favicon updated.
+- Flutter login screen and navigation drawer now use matching eagle-eye icon and wordmark.
+- No backend, AI, authentication, admin, or detection logic intentionally changed.
+Flutter: run flutter pub get after extracting.
+Web: npm install then npm run dev as usual.

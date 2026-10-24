@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Local configuration and secrets
+.env
+demo_credentials.txt
+
+# Databases created at runtime
+*.db
+*.db-journal
+
+# Generated data and trained models (re-create them with the documented commands)
+data/generated/
+ai/models/*.joblib
+ai/models/*.json
+!ai/models/.gitkeep
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Frontend
+frontend/node_modules
+frontend/dist/
+frontend/.env.local
+
+# Flutter
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/pubspec.lock
+mobile/android/.gradle/
+mobile/android/local.properties
+
+# Test output
+tests/e2e/screenshots/
+test-results/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

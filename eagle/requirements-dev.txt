@@ -1,0 +1,8 @@
+# Development and testing dependencies.
+-r requirements.txt
+pytest==9.1.1
+httpx==0.28.1
+# Browser end-to-end tests for the web dashboard (after installing run: python -m playwright install chromium)
+playwright==1.56.0
+# Optional: to open ai/notebooks/model_evaluation.ipynb
+# jupyterlab

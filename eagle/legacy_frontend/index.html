@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2b2f36"><title>Eagle Eye • Security Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<section id="loginView" class="auth-shell">
+  <div class="auth-glow glow-a"></div><div class="auth-glow glow-b"></div>
+  <div class="auth-card">
+    <div class="brand-mark"><img src="/eagle-eye-icon.svg" alt="Eagle"></div><div class="eyebrow">SECURITY OPERATIONS</div>
+    <h1>Eagle Eye</h1><p class="auth-sub">AI-powered insider threat detection console</p>
+    <form id="loginForm">
+      <label>Username<input id="username" value="admin" autocomplete="username"></label>
+      <label>Password<input id="password" type="password" value="" autocomplete="current-password"></label>
+      <button class="primary full" type="submit"><span>Sign in securely</span><span>→</span></button>
+      <div id="loginMsg" class="form-msg"></div>
+    </form>
+    <div class="auth-foot"><span class="dot online"></span> Protected analyst environment</div>
+  </div>
+</section>
+
+<section id="registerView" class="auth-shell hidden">
+  <div class="auth-glow glow-a"></div><div class="auth-glow glow-b"></div>
+  <div class="auth-card">
+    <div class="brand-mark"><img src="/eagle-eye-icon.svg" alt="Eagle"></div><div class="eyebrow">NEW ACCOUNT</div><h1>Create account</h1><p class="auth-sub">Register a monitored analyst account.</p>
+    <form id="registerForm">
+      <label>Username<input id="regUsername" autocomplete="username" required></label>
+      <label>Password<input id="regPassword" type="password" autocomplete="new-password" required></label>
+      <label>Department<input id="regDepartment" value="General"></label>
+      <label>Job role<input id="regJobRole" value="Employee"></label>
+      <button class="primary full" type="submit">Create account</button><button class="ghost full" type="button" id="backToLogin1">Back to sign in</button>
+      <div id="registerMsg" class="form-msg"></div>
+    </form>
+  </div>
+</section>
+
+<section id="forgotView" class="auth-shell hidden">
+  <div class="auth-glow glow-a"></div><div class="auth-glow glow-b"></div>
+  <div class="auth-card">
+    <div class="brand-mark"><img src="/eagle-eye-icon.svg" alt="Eagle"></div><div class="eyebrow">ACCOUNT RECOVERY</div><h1>Reset password</h1><p class="auth-sub">Enter your username and choose a new password.</p>
+    <form id="forgotForm">
+      <label>Username<input id="forgotUsername" autocomplete="username" required></label>
+      <label>New password<input id="forgotPassword" type="password" autocomplete="new-password" required></label>
+      <button class="primary full" type="submit">Reset password</button><button class="ghost full" type="button" id="backToLogin2">Back to sign in</button>
+      <div id="forgotMsg" class="form-msg"></div>
+    </form>
+  </div>
+</section>
+
+<div id="appShell" class="app-shell hidden">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-icon"><img src="/eagle-eye-icon.svg" alt="Eagle"></div><div><strong>EAGLE EYE</strong><span>Threat Intelligence</span></div></div>
+    <div class="workspace"><span>WORKSPACE</span><b>Security Operations</b></div>
+    <nav id="nav">
+      <button class="nav-item active" data-page="dashboard" data-admin-only="true"><span>⌂</span> Dashboard</button>
+      <button class="nav-item" data-page="alerts"><span>⚠</span> Alerts <i id="alertBadge">0</i></button>
+      <button class="nav-item" data-page="detection"><span>⌁</span> Detection Lab</button>
+      <button class="nav-item" data-page="users" data-admin-only="true"><span>◉</span> Users</button>
+      <button class="nav-item" data-page="activities" data-admin-only="true"><span>◌</span> Activity</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="security-status"><span class="dot online"></span><div><b>System protected</b><small>API connected</small></div></div><button class="logout-link" id="logoutBtn">↪ Sign out</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><button class="icon-btn mobile-menu" id="menuBtn">☰</button><div><div class="crumb">Security Operations / <b id="pageCrumb">Dashboard</b></div><h2 id="pageTitle">Security Dashboard</h2></div><div class="top-actions"><span class="live"><span class="dot online"></span> LIVE</span><button class="icon-btn" id="themeBtn" title="Toggle theme">☀</button><button class="icon-btn" id="refreshBtn">↻</button><div class="profile"><div class="avatar">SA</div><div><b>Security Admin</b><small>Administrator</small></div></div></div></header>
+
+    <section id="dashboardPage" class="page">
+      <div class="hero"><div><span class="eyebrow">THREAT OVERVIEW</span><h1>Stay ahead of insider risk.</h1><p>Monitor behavior, investigate anomalies, and respond before suspicious activity becomes an incident.</p></div><div class="hero-shield">◈</div></div>
+      <div class="stats-grid" id="statsCards"></div>
+      <div class="content-grid two-one"><div class="panel"><div class="panel-head"><div><h3>Risk distribution</h3><span>Current open alerts by severity</span></div><button class="ghost" data-page="alerts">View alerts →</button></div><div id="riskChart" class="risk-chart"></div></div><div class="panel"><div class="panel-head"><div><h3>System pipeline</h3><span>Detection flow</span></div></div><div class="pipeline"><div><b>01</b><span>Activity</span><small>Events ingested</small></div><em>→</em><div><b>02</b><span>Rules + AI</span><small>Behavior analyzed</small></div><em>→</em><div><b>03</b><span>Risk score</span><small>0 — 100</small></div><em>→</em><div><b>04</b><span>Alert</span><small>Analyst action</small></div></div></div></div>
+      <div class="content-grid two-one"><div class="panel"><div class="panel-head"><div><h3>Recent alerts</h3><span>Latest security events</span></div></div><div id="recentAlerts" class="alert-list"></div></div><div class="panel"><div class="panel-head"><div><h3>Activity snapshot</h3><span>Latest monitored events</span></div></div><div id="activitySnapshot" class="mini-list"></div></div></div>
+    </section>
+
+    <section id="alertsPage" class="page hidden"><div class="page-intro"><div><span class="eyebrow">INCIDENT QUEUE</span><h1>Security alerts</h1><p>Review, filter and triage suspicious user behavior.</p></div></div><div class="filterbar"><input id="alertSearch" placeholder="Search user or reason…"><select id="alertRisk"><option value="">All risk levels</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select><select id="alertStatus"><option value="">All statuses</option><option>OPEN</option><option>INVESTIGATING</option><option>RESOLVED</option><option>FALSE_POSITIVE</option></select><button class="ghost" id="clearAlertFilters">Clear</button></div><div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Alert</th><th>User</th><th>Risk</th><th>Reason</th><th>Detected</th><th>Status</th><th></th></tr></thead><tbody id="alertsBody"></tbody></table></div></div></section>
+
+    <section id="detectionPage" class="page hidden">
+      <div class="page-intro"><div><span class="eyebrow">CONTROLLED SIMULATION</span><h1>Detection Lab</h1><p>Generate a synthetic scenario and process it through the same Rules + AI pipeline used by Eagle Eye.</p></div></div>
+      <div class="content-grid two-one">
+        <div class="panel"><div class="panel-head"><div><h3>Build a test scenario</h3><span>Choose a scenario, user, date and intensity</span></div><span class="live"><span class="dot online"></span> DEMO MODE</span></div>
+          <div class="sim-form">
+            <label>Scenario<select id="scenarioSelect"><option value="COMBINED_ANOMALY">Combined anomaly</option></select></label>
+            <label>Monitored user<select id="targetSelect"><option value="">Loading users…</option></select></label>
+            <label>Activity date<input id="simDate" type="date"></label>
+            <label>Intensity<select id="simIntensity"><option value="1">1 · Mild</option><option value="2" selected>2 · Medium</option><option value="3">3 · Strong</option></select></label>
+            <button class="primary full" id="runDetectionBtn" type="button">Run detection &amp; generate example →</button>
+            <p class="panel-note">Generated events are synthetic. Re-running a scenario adds more events for the selected user and date. Existing alerts are not inserted by hand.</p>
+            <div id="detectionMsg" class="form-msg" role="status"></div>
+          </div>
+        </div>
+        <div class="panel"><div class="panel-head"><div><h3>Latest result</h3><span>Risk scoring and alert outcome</span></div></div><div id="detectionResult" class="detection-result"><div class="empty">Run a scenario to see the Rules + AI result here.</div></div></div>
+      </div>
+    </section>
+
+    <section id="usersPage" class="page hidden"><div class="page-intro"><div><span class="eyebrow">IDENTITIES</span><h1>Monitored users</h1><p>Behavioral risk posture across the organization.</p></div><button class="primary" id="addUserBtn">＋ Add User</button></div><div class="filterbar"><input id="userSearch" placeholder="Search username, department or role…"><select id="userRisk"><option value="">All risk</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></div><div id="userGrid" class="user-grid"></div></section>
+
+    <section id="activitiesPage" class="page hidden"><div class="page-intro"><div><span class="eyebrow">TELEMETRY</span><h1>Activity stream</h1><p>Recent authorized activity collected by Eagle Eye.</p></div></div><div class="filterbar"><input id="activitySearch" placeholder="Search event, file, source or user…"><select id="activityType"><option value="">All events</option><option>LOGIN</option><option>FILE_ACCESS</option><option>FILE_DOWNLOAD</option><option>FILE_UPLOAD</option><option>FILE_DELETE</option><option>USB_CONNECT</option><option>USB_TRANSFER</option><option>EMAIL_SENT</option></select></div><div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Time</th><th>User</th><th>Event</th><th>Resource</th><th>Sensitivity</th><th>Source</th></tr></thead><tbody id="activitiesBody"></tbody></table></div></div></section>
+  </main>
+</div>
+
+<div id="drawer" class="drawer hidden"><div class="drawer-backdrop" id="drawerBackdrop"></div><aside class="drawer-card"><button class="drawer-close" id="drawerClose">×</button><div id="drawerContent"></div></aside></div>
+<script src="/app.js"></script>
+</body></html>
